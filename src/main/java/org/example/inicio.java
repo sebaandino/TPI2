@@ -9,7 +9,7 @@ public class inicio {
 
     public static void main(String[] args) throws IOException {
 
-        List<String> ArchivoResultados = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI13\\resultados.csv"));
+        List<String> ArchivoResultados = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI2\\resultados.csv"));
         Partido [] PartidosRonda = new Partido[ArchivoResultados.size()];
         ArchivoResultados.remove(0);
 
@@ -24,17 +24,17 @@ public class inicio {
             Equipo equipo2 = new Equipo();
             equipo2.setNombre(vector[4]);
 
-            Partido partido = new Partido();
+            Partido partido1 = new Partido();
 
-            partido.setEquipo1(equipo1);
-            partido.setEquipo2(equipo2);
-            partido.setResultadoequipo1(Integer.parseInt(vector[2]));
-            partido.setResultadoequipo2(Integer.parseInt(vector[3]));
-            PartidosRonda[j] = partido;
+            partido1.setEquipo1(equipo1);
+            partido1.setEquipo2(equipo2);
+            partido1.setResultadoequipo1(Integer.parseInt(vector[2]));
+            partido1.setResultadoequipo2(Integer.parseInt(vector[3]));
+            PartidosRonda[j] = partido1;
             j++;
         }
 
-        List<String> ArchivoPronostico = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI13\\pronosticos.csv"));
+        List<String> ArchivoPronostico = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI2\\pronosticos.csv"));
         ArchivoPronostico.remove(0);
         Pronostico[] TotalPronosticos = new Pronostico[ArchivoPronostico.size()];
         int h = 0;
