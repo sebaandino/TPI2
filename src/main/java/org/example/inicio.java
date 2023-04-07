@@ -11,7 +11,7 @@ public class inicio {
         List<String> archivoresultados = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI2\\resultados.csv")); //lee archivo de resultados
         Partido [] partidosRonda = new Partido[archivoresultados.size()]; //array para guardar los partidos
 
-        archivoresultados.remove(0);  //remueve la linea 0 del archivo
+        archivoresultados.remove(0);  //remueve la linea 0 del archiv
 
         int j =0;   // variable para recorrer el array de los partidos
         for (String archivoresultado : archivoresultados) {
@@ -32,10 +32,24 @@ public class inicio {
             j++;  //avanzo un lugar en el array
         }
 
+        Ronda nr = new Ronda();
+        nr.setNro(archivoresultados.get(1).split(";")[0]);
+        nr.setPartidos(partidosRonda);
+        System.out.println("Ronda nª: " + nr.getNro());
+        System.out.println(partidosRonda[0].getEquipo1().getNombre() + " vs " + partidosRonda[0].getEquipo2().getNombre());
+        System.out.println(partidosRonda[0].getResultadoequipo1() + " - "+ partidosRonda[0].getResultadoequipo2());
+        System.out.println(partidosRonda[1].getEquipo1().getNombre() + " vs " + partidosRonda[1].getEquipo2().getNombre());
+        System.out.println(partidosRonda[1].getResultadoequipo1() + " - "+ partidosRonda[1].getResultadoequipo2());
+        System.out.println(partidosRonda[2].getEquipo1().getNombre() + " vs " + partidosRonda[2].getEquipo2().getNombre());
+        System.out.println(partidosRonda[2].getResultadoequipo1() + " - "+ partidosRonda[2].getResultadoequipo2());
+        System.out.println(partidosRonda[3].getEquipo1().getNombre() + " vs " + partidosRonda[3].getEquipo2().getNombre());
+        System.out.println(partidosRonda[3].getResultadoequipo1() + " - "+ partidosRonda[3].getResultadoequipo2());
+
 
         List<String> archivopronostico = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI2\\pronosticos.csv"));  //lee archivo de pronosticos
         archivopronostico.remove(0);   //remueve la linea 0 del archivo
         Pronostico[] totalpronosticos = new Pronostico[archivopronostico.size()];   //array para guardar los pronosticos
+
         int h=0;   // variable para recorrer el array de los pronosticos
         for(int k=0 ; k < archivopronostico.size(); k++) {
             Pronostico pronostico = new Pronostico();
