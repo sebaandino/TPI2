@@ -8,68 +8,57 @@ import java.util.List;
 public class inicio {
 
     public static void main(String[] args) throws IOException {
+        List<String> archivoresultados = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI2\\resultados.csv")); //lee archivo de resultados
+        Partido [] partidosRonda = new Partido[archivoresultados.size()]; //array para guardar los partidos
 
-        List<String> ArchivoResultados = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI2\\resultados.csv"));
-        Partido [] PartidosRonda = new Partido[ArchivoResultados.size()];
-        ArchivoResultados.remove(0);
+        archivoresultados.remove(0);  //remueve la linea 0 del archivo
 
-        int m=0;
-        for(int i=0 ; i<ArchivoResultados.size() ; i++){
+        int j =0;   // variable para recorrer el array de los partidos
+        for (String archivoresultado : archivoresultados) {
+            String[] vector = archivoresultado.split(";");  //separa la linea por ; y lo va guardando en el vector
 
-            String[] vector = ArchivoResultados.get(i).split(";");
-
-            Equipo equipo1 = new Equipo();
-            equipo1.setNombre(ArchivoResultados.get(i).split(";")[1]);
+            Equipo equipo1 = new Equipo();  //crea objeto equipo y setea el nombre
+            equipo1.setNombre(archivoresultado.split(";")[1]);
 
             Equipo equipo2 = new Equipo();
-            equipo2.setNombre(ArchivoResultados.get(i).split(";")[4]);
+            equipo2.setNombre(archivoresultado.split(";")[4]);
 
-            /* String equipo1 = ArchivoResultados.get(i).split(";")[4];
-            Equipo equipoN1 = new Equipo();
-            equipoN2.setNombre(vector[1]); */
-            /* String equipo2 = ArchivoResultados.get(i).split(";")[4];
-            Equipo equipoN2 = new Equipo();
-            equipoN2.setNombre(vector[4]); */
-
-            int resultadoEquipo1 = (Integer.parseInt(vector[2]));
-            int resultadoEquipo2 = (Integer.parseInt(vector[3]));
-
-            System.out.println(equipo1);
-            System.out.println(equipo2);
-            System.out.println(resultadoEquipo1);
-            System.out.println(resultadoEquipo2);
-            Partido partido = new Partido(equipo1, equipo2, resultadoEquipo1, resultadoEquipo2);
-            PartidosRonda[m] = partido;
-            m++;
+            Partido partido = new Partido();  //crea objeto partido y setea los atributos
+            partido.setEquipo1(equipo1);
+            partido.setEquipo2(equipo2);
+            partido.setResultadoequipo1(Integer.parseInt(vector[2]));
+            partido.setResultadoequipo2(Integer.parseInt(vector[3]));
+            partidosRonda[j] = partido;  //agrega el partido al array
+            j++;  //avanzo un lugar en el array
         }
 
-        List<String> ArchivoPronostico = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI2\\pronosticos.csv"));
-        ArchivoPronostico.remove(0);
-        Pronostico[] TotalPronosticos = new Pronostico[ArchivoPronostico.size()];
-        int h = 0;
-        for (int k = 0; k < ArchivoPronostico.size(); k++) {
-            resultadoEnum ResultadoPronostico;
+
+        List<String> archivopronostico = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI2\\pronosticos.csv"));  //lee archivo de pronosticos
+        archivopronostico.remove(0);   //remueve la linea 0 del archivo
+        Pronostico[] totalpronosticos = new Pronostico[archivopronostico.size()];   //array para guardar los pronosticos
+        int h=0;   // variable para recorrer el array de los pronosticos
+        for(int k=0 ; k < archivopronostico.size(); k++) {
             Pronostico pronostico = new Pronostico();
-            if (ArchivoPronostico.get(k).split(";")[2].isEmpty()) {
-                if (ArchivoPronostico.get(k).split(";")[4].isEmpty()) {
-                    ResultadoPronostico = resultadoEnum.empate;
-                } else {
-                    ResultadoPronostico = resultadoEnum.perdedor;}
-                } else {
-                ResultadoPronostico = resultadoEnum.ganador;}
+            resultadoEnum resultadoPronostico;    //variable para guardar el resultado del Enum
+            if(archivopronostico.get(k).split(";")[2].isEmpty()) {    // isEmpy = si esta vacio es esa posicion devuelve un true
+                if(archivopronostico.get(k).split(";")[4].isEmpty()) {
+                    resultadoPronostico = resultadoEnum.empate;
+                }else {
+                    resultadoPronostico = resultadoEnum.perdedor;}
+            }else {
+                resultadoPronostico = resultadoEnum.ganador;}
+            pronostico.setPartido(partidosRonda[k]);    //seteo los parametros de la clase pronostico
+            pronostico.setEquipo(partidosRonda[k].getEquipo1());
+            pronostico.setResultado(resultadoPronostico);
 
-            pronostico.setPartido(PartidosRonda[k]);
-            pronostico.setEquipo(PartidosRonda[k].getEquipo1());
-            pronostico.setResultado(ResultadoPronostico);
-
-            TotalPronosticos[h] = pronostico;
-            h++;
-        }
-        int totalpuntos = 0;
-        for (Pronostico pronostico : TotalPronosticos) {
-            totalpuntos += pronostico.puntos();
+            totalpronosticos[h] = pronostico;  //guardo el nuevo pronosticos en el array de pronosticos
+            h++;  // avanza un lugar en ese array
         }
 
-        System.out.println("el total de puntos es: " + totalpuntos);
+        int totalpuntos=0;  //variable para ir sumando los puntos
+        for (Pronostico pronostico : totalpronosticos) {   //recorro el array donde estan los pronosticos
+            totalpuntos += pronostico.puntos();   //llamo al metodo de la clase pronostico para sumar los puntos
+        }
+        System.out.println("el total de puntos es: " + totalpuntos);  //muestro por consola el total de los puntos
     }
 }

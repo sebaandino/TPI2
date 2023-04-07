@@ -6,18 +6,6 @@ public class Partido {
     private int resultadoequipo1;
     private int resultadoequipo2;
 
-    public Partido() {
-        super();
-    }
-
-    public Partido(Equipo equipo1, Equipo equipo2, int resultadoequipo1, int resultadoequipo2) {
-        super();
-        this.equipo1 = equipo1;
-        this.equipo2 = equipo2;
-        this.resultadoequipo1 = resultadoequipo1;
-        this.resultadoequipo2 = resultadoequipo2;
-    }
-
     public Equipo getEquipo1() {
         return equipo1;
     }
@@ -48,6 +36,18 @@ public class Partido {
 
     public void setResultadoequipo2(int resultadoequipo2) {
         this.resultadoequipo2 = resultadoequipo2;
+    }
+
+    public Partido(Equipo equipo1, Equipo equipo2, int resultadoequipo1, int resultadoequipo2) {
+        super();
+        this.equipo1 = equipo1;
+        this.equipo2 = equipo2;
+        this.resultadoequipo1 = resultadoequipo1;
+        this.resultadoequipo2 = resultadoequipo2;
+    }
+
+    public Partido() {
+        super();
     }
 
     public resultadoEnum resultado(Equipo equipo) {
