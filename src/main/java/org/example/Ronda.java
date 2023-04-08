@@ -2,7 +2,7 @@ package org.example;
 
 public class Ronda {
     private String nro;
-    private Partido partidos[];
+    private Partido[] partidos;
 
     public Ronda(String nro, Partido[] partidos) {
         this.nro = nro;
