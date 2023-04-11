@@ -3,7 +3,6 @@ package org.example;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 
 public class inicio {
@@ -46,19 +45,21 @@ public class inicio {
 
         for (int k = 0; k <4; k++) {
             Pronostico pronostico1 = new Pronostico();
-            resultadoEnum resultadoPronostico;    //variable para guardar el resultado del Enum
-            if (archivopronostico.get(k).split(";")[2].isEmpty()) {    // isEmpy = si esta vacio es esa posicion devuelve un true
-                if (archivopronostico.get(k).split(";")[4].isEmpty()) {
-                    resultadoPronostico = resultadoEnum.empate;
-                } else {
-                    resultadoPronostico = resultadoEnum.perdedor;
-                }
-            } else {
-                resultadoPronostico = resultadoEnum.ganador;
-            }
+            resultadoEnum resultadoPronostico1 = null;    //variable para guardar el resultado del Enum
+
+            if (archivopronostico.get(k).split(";")[3].isEmpty()
+            && archivopronostico.get(k).split(";")[4].isEmpty()) {
+                resultadoPronostico1 = resultadoEnum.ganador;}
+            if(archivopronostico.get(k).split(";")[2].isEmpty()
+            && archivopronostico.get(k).split(";")[3].isEmpty()){
+                resultadoPronostico1 = resultadoEnum.perdedor;}
+            if(archivopronostico.get(k).split(";")[2].isEmpty()
+                    && archivopronostico.get(k).split(";")[4].isEmpty()){
+                resultadoPronostico1 = resultadoEnum.empate;}
+
             pronostico1.setPartido(partidosRonda[k]);    //seteo los parametros de la clase pronostico
             pronostico1.setEquipo(partidosRonda[k].getEquipo1());
-            pronostico1.setResultado(resultadoPronostico);
+            pronostico1.setResultado(resultadoPronostico1);
 
             totalpronosticos1[h] = pronostico1;  //guardo el nuevo pronosticos en el array de pronosticos
             h++;  // avanza un lugar en ese array
@@ -72,20 +73,22 @@ public class inicio {
 
         for (int y = 4; y < 8; y++) {
             Pronostico pronostico2 = new Pronostico();
-            resultadoEnum resultadoPronostico;    //variable para guardar el resultado del Enum
-            if (archivopronostico.get(y).split(";")[2].isEmpty()) {    // isEmpy = si esta vacio es esa posicion devuelve un true
-                if (archivopronostico.get(y).split(";")[4].isEmpty()) {
-                    resultadoPronostico = resultadoEnum.empate;
-                } else {
-                    resultadoPronostico = resultadoEnum.perdedor;
-                }
-            } else {
-                resultadoPronostico = resultadoEnum.ganador;
-            }
+            resultadoEnum resultadoPronostico2 = null;    //variable para guardar el resultado del Enum
+
+            if (archivopronostico.get(y).split(";")[3].isEmpty()
+                    && archivopronostico.get(y).split(";")[4].isEmpty()) {
+                resultadoPronostico2 = resultadoEnum.ganador;}
+            if(archivopronostico.get(y).split(";")[2].isEmpty()
+                    && archivopronostico.get(y).split(";")[3].isEmpty()){
+                resultadoPronostico2 = resultadoEnum.perdedor;}
+            if(archivopronostico.get(y).split(";")[2].isEmpty()
+                    && archivopronostico.get(y).split(";")[4].isEmpty()){
+                resultadoPronostico2 = resultadoEnum.empate;}
+
             for (int i = 0; i < 4 ; i++) {
             pronostico2.setPartido(partidosRonda[i]);    //seteo los parametros de la clase pronostico
             pronostico2.setEquipo(partidosRonda[i].getEquipo1());
-            pronostico2.setResultado(resultadoPronostico);}
+            pronostico2.setResultado(resultadoPronostico2);}
 
             totalpronosticos2[r] = pronostico2;  //guardo el nuevo pronosticos en el array de pronosticos
             r++;  // avanza un lugar en ese array
@@ -93,16 +96,16 @@ public class inicio {
         persona2.setPronostico(totalpronosticos2);
 
         int totalpuntos1 = 0;  //variable para ir sumando los puntos
-        for (Pronostico pronostico : totalpronosticos1) {   //recorro el array donde estan los pronosticos
-            totalpuntos1 += pronostico.puntos();   //llamo al metodo de la clase pronostico para sumar los puntos
+        for (Pronostico resultado1 : totalpronosticos1) {   //recorro el array donde estan los pronosticos
+            totalpuntos1 += resultado1.puntos();   //llamo al metodo de la clase pronostico para sumar los puntos
         }
 
         int totalpuntos2 = 0;  //variable para ir sumando los puntos
-        for (Pronostico pronostico : totalpronosticos2) {   //recorro el array donde estan los pronosticos
-            totalpuntos2 += pronostico.puntos();   //llamo al metodo de la clase pronostico para sumar los puntos
+        for (Pronostico resultado2 : totalpronosticos2) {   //recorro el array donde estan los pronosticos
+            totalpuntos2 += resultado2.puntos();   //llamo al metodo de la clase pronostico para sumar los puntos
         }
 
-        System.out.println("Ronda nª: " + nr.getNro());
+       System.out.println("Ronda nª: " + nr.getNro());
         System.out.println("*************");
         for (Partido partido : partidosRonda) {
             System.out.println(partido.getEquipo1().getNombre() + " vs " + partido.getEquipo2().getNombre());
