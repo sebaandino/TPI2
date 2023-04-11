@@ -52,13 +52,20 @@ public class Partido {
 
     public resultadoEnum resultado(Equipo equipo) {
         if (resultadoequipo1 == resultadoequipo2) {
-            return resultadoEnum.empate;
+            return resultadoEnum.empate;}
+
+        if (equipo.equals(equipo1)) {
+            if(resultadoequipo1 > resultadoequipo2) {
+                return resultadoEnum.ganador;
+            } else{
+                return resultadoEnum.perdedor;}
         }
-        if (resultadoequipo1 > resultadoequipo2) {
-            return resultadoEnum.ganador;
-        }
-        if (resultadoequipo2 > resultadoequipo1) {
-            return resultadoEnum.perdedor;
+        if (equipo.equals(equipo2)) {
+            if (resultadoequipo2 > resultadoequipo1) {
+                return resultadoEnum.ganador;
+            } else {
+                return resultadoEnum.perdedor;
+            }
         }
         return null;
     }

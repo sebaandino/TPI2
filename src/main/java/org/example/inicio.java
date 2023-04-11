@@ -98,6 +98,7 @@ public class inicio {
         for (Pronostico resultado1 : totalpronosticos1) {   //recorro el array donde estan los pronosticos
             totalpuntos1 += resultado1.puntos();   //llamo al metodo de la clase pronostico para sumar los puntos
         }
+        persona1.setPuntajeTotal(totalpuntos1);
 
         int totalpuntos2 = 0;  //variable para ir sumando los puntos
         for (Pronostico resultado2 : totalpronosticos2) {   //recorro el array donde estan los pronosticos
@@ -114,5 +115,6 @@ public class inicio {
 
         System.out.println("el total de puntos del participante " + persona1.getNombre() + " es: " + totalpuntos1); //muestro por consola el total de los punto
         System.out.println("el total de puntos del participante " + persona2.getNombre() + " es: " + totalpuntos2);
+        System.out.println(persona1.getPuntajeTotal());
     }
 }
