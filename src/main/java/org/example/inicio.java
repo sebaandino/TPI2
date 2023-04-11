@@ -85,10 +85,9 @@ public class inicio {
                     && archivopronostico.get(y).split(";")[4].isEmpty()){
                 resultadoPronostico2 = resultadoEnum.empate;}
 
-            for (int i = 0; i < 4 ; i++) {
-            pronostico2.setPartido(partidosRonda[i]);    //seteo los parametros de la clase pronostico
-            pronostico2.setEquipo(partidosRonda[i].getEquipo1());
-            pronostico2.setResultado(resultadoPronostico2);}
+            pronostico2.setPartido(partidosRonda[r]);    //seteo los parametros de la clase pronostico
+            pronostico2.setEquipo(partidosRonda[r].getEquipo1());
+            pronostico2.setResultado(resultadoPronostico2);
 
             totalpronosticos2[r] = pronostico2;  //guardo el nuevo pronosticos en el array de pronosticos
             r++;  // avanza un lugar en ese array
