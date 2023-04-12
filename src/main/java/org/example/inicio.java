@@ -115,6 +115,5 @@ public class inicio {
 
         System.out.println("el total de puntos del participante " + persona1.getNombre() + " es: " + totalpuntos1); //muestro por consola el total de los punto
         System.out.println("el total de puntos del participante " + persona2.getNombre() + " es: " + totalpuntos2);
-        System.out.println(persona1.getPuntajeTotal());
     }
 }
