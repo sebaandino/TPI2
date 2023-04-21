@@ -1,0 +1,1 @@
+SELECT * FROM pronosticos_db.pronosticos;
