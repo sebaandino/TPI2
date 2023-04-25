@@ -1,10 +1,11 @@
 package org.example;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 public class inicio {
 
@@ -12,7 +13,7 @@ public class inicio {
 
         List<String> archivoresultados = Files.readAllLines(Paths.get("C:\\Users\\Seba\\Desktop\\TPI2\\resultados.csv")); //lee archivo de resultados
         archivoresultados.remove(0);  //remueve la linea 0 del archivo
-        Partido[] partidosRonda = new Partido[archivoresultados.size()]; //array para guardar los partidos
+        ArrayList<Partido> partidosRonda = new ArrayList<Partido>(); //array para guardar los partidos
 
         int j = 0;   // variable para recorrer el array de los partidos
         for (String archivoresultado : archivoresultados) {
@@ -29,79 +30,77 @@ public class inicio {
             partido.setEquipo2(equipo2);
             partido.setResultadoequipo1(Integer.parseInt(vector[2]));
             partido.setResultadoequipo2(Integer.parseInt(vector[3]));
-            partidosRonda[j] = partido;  //agrega el partido al array
-            j++; //avanzo un lugar en el array
+            partidosRonda.add(partido);  //agrega el partido al array
         }
 
-        Ronda nr = new Ronda();
-        nr.setNro(archivoresultados.get(1).split(";")[0]);
-        nr.setPartidos(partidosRonda);
+        Ronda ronda = new Ronda();
+        ronda.setNro(archivoresultados.get(1).split(";")[0]);
+        ronda.setPartidos(partidosRonda);
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
+        try {
 
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pronosticos_db", "root", "root");
-        Statement st = conn.createStatement();
+            Properties properties = new Properties();
+            FileInputStream input = new FileInputStream("C:\\Users\\Seba\\Desktop\\TPI2\\config.ini");
+            properties.load(input);
 
-        ResultSet rs = st.executeQuery("SELECT * FROM pronosticos");
+            //Obtener variables
+            String url = properties.getProperty("db.url");
+            String username = properties.getProperty("db.user");
+            String password = properties.getProperty("db.password");
 
-        Pronostico[] totalpronosticos1 = new Pronostico[4];
+            //Conexion a la BD
+            Connection conn = DriverManager.getConnection(url, username, password);
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM pronosticos");
 
-int k = 0;
-            for (int i = 0; i <4; i++) {
-                while (rs.next()) {
-                Pronostico pronostico = new Pronostico();
+            ArrayList<resultadoEnum> totalresultados = new ArrayList<resultadoEnum>();
+            ArrayList<String> totalparticipantes = new ArrayList<String>();
+
+            int k = 0;
+            while (rs.next()) {
+
+                String participante = rs.getString("participante");
+                if (!totalparticipantes.contains(participante)) {
+                    totalparticipantes.add(participante);}
+
+
                 resultadoEnum resultadoPronostico = null;
 
                 if (rs.getString("empate").isEmpty()
-                        && rs.getString("gana2").isEmpty()) {
-                    resultadoPronostico = resultadoEnum.ganador;
-                }
-                if (rs.getString("gana1").isEmpty()
-                        && rs.getString("empate").isEmpty()) {
-                    resultadoPronostico = resultadoEnum.perdedor;
-                }
-                if (rs.getString("gana1").isEmpty()
-                        && rs.getString("gana2").isEmpty()) {
-                    resultadoPronostico = resultadoEnum.empate;
+                            && rs.getString("gana2").isEmpty()) {
+                        resultadoPronostico = resultadoEnum.ganador;
+                    }
+                    if (rs.getString("gana1").isEmpty()
+                            && rs.getString("empate").isEmpty()) {
+                        resultadoPronostico = resultadoEnum.perdedor;
+                    }
+                    if (rs.getString("gana1").isEmpty()
+                            && rs.getString("gana2").isEmpty()) {
+                        resultadoPronostico = resultadoEnum.empate;
+                    }
+
+                    totalresultados.add(resultadoPronostico);
                 }
 
-                pronostico.setPartido(partidosRonda[k]);
-                pronostico.setEquipo(partidosRonda[k].getEquipo1());
-                pronostico.setResultado(resultadoPronostico);
-                totalpronosticos1[k] = pronostico;
-                k++;
-            }
+
+            Pronostico pronostico = new Pronostico();
+
+            pronostico.setPartido(partidosRonda.get(1));
+            pronostico.setEquipo(partidosRonda.get(1).getEquipo1());
+            pronostico.setResultado(totalresultados.get(1));
+
+            System.out.println(partidosRonda.get(1).getEquipo1().getNombre() + " vs " + partidosRonda.get(1).getEquipo2().getNombre());
+            System.out.println(partidosRonda.get(1).getResultadoequipo1() + " - " + partidosRonda.get(1).getResultadoequipo2());
+            System.out.println(partidosRonda.get(1).getEquipo1().getNombre());
+            System.out.println(totalresultados.get(1));
+
+
+            int puntaje = 0 ;
+            puntaje = pronostico.puntos();
+            System.out.println(puntaje);
+
+        } catch (SQLException sqle) {
+            System.out.println(sqle);
         }
-
-            for(int i = 0;i<4;i++){
-                System.out.println(totalpronosticos1[i].getEquipo().getNombre());
-                System.out.println(totalpronosticos1[i].getResultado());
-            }
-
-
-
-            Persona persona = new Persona();
-            persona.setNombre("elias");
-
-            persona.setPronostico(totalpronosticos1);
-
-           int totalPuntos = 0;
-            for(Pronostico resultado : totalpronosticos1){
-                totalPuntos +=  resultado.puntos();
-            }
-            persona.setPuntajeTotal(totalPuntos);
-
-        System.out.println("Ronda nª: " + nr.getNro());
-        System.out.println("*************");
-        for(Partido partido : partidosRonda){
-            System.out.println(partido.getEquipo1().getNombre() + " vs " + partido.getEquipo2().getNombre());
-            System.out.println(partido.getResultadoequipo1() + " - " + partido.getResultadoequipo2());}
-
-            System.out.println("***********");
-
-            System.out.println("el total de puntos del participante: " + persona.getNombre() + " es: " + totalPuntos);
-
-conn.close();
-
     }
 }

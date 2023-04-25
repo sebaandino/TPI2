@@ -2,23 +2,15 @@ package org.example;
 
 public class Persona {
     private String nombre;
-    private Pronostico[] pronostico;
-
+    private Pronostico [] pronostico;
     private int puntajeTotal;
 
     public Persona() {
     }
 
-    public Persona(String nombre, Pronostico[] pronostico,int puntajeTotal) {
+    public Persona(String nombre, Pronostico[] pronostico, int puntajeTotal) {
         this.nombre = nombre;
         this.pronostico = pronostico;
-    }
-
-    public int getPuntajeTotal() {
-        return puntajeTotal;
-    }
-
-    public void setPuntajeTotal(int puntajeTotal) {
         this.puntajeTotal = puntajeTotal;
     }
 
@@ -36,5 +28,13 @@ public class Persona {
 
     public void setPronostico(Pronostico[] pronostico) {
         this.pronostico = pronostico;
+    }
+
+    public int getPuntajeTotal() {
+        return puntajeTotal;
+    }
+
+    public void setPuntajeTotal(int puntajeTotal) {
+        this.puntajeTotal = puntajeTotal;
     }
 }

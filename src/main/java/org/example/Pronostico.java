@@ -1,12 +1,13 @@
 package org.example;
 
+import java.util.ArrayList;
+
 public class Pronostico {
     private Partido partido;
     private Equipo equipo;
     private resultadoEnum resultado;
 
     public Pronostico() {
-        super();
     }
 
     public Pronostico(Partido partido, Equipo equipo, resultadoEnum resultado) {
